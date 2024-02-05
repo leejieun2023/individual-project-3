@@ -1,4 +1,4 @@
-# My Todo List
+# NewJeans FanLetter
 
 using React
 

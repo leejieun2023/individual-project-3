@@ -5,14 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from 'components/common/Avatar'
 import { useSelector } from 'react-redux';
 
+const artists = ['민지', '하니', '다니엘', '해린', '혜인'];
+
 export default function Home() {
-  const artists = ['민지', '하니', '다니엘', '해린', '혜인'];
   const [activeTab, setActiveTab] = useState(artists[0]);
-
   const letters = useSelector(state => state.letters);
-
   const filteredItem = letters.filter(item => item.writedTo === activeTab).slice();
-
   const navigate = useNavigate();
 
   return (
@@ -23,7 +21,7 @@ export default function Home() {
       </Tob>
 
       <Header>
-        NewJeans fanletters
+        NewJeans fanletter
       </Header>
 
       <TabList>
@@ -40,7 +38,7 @@ export default function Home() {
         ))}
       </TabList>
 
-      <AddForm/>
+      <AddForm />
 
       <LetterBox>
         {filteredItem.length > 0 ? (
@@ -49,9 +47,9 @@ export default function Home() {
               <ListItem onClick={() => navigate(`/Detail/${item.id}`)}>
                 <Avatar src={item.avatar || 'https://i.pinimg.com/236x/a5/e8/4d/a5e84dd8104ba6287b72e16401d173d7.jpg'} alt="avatar" />
                 <div>
-                  <p>닉네임 : {item.nickname}</p>
-                  <p>작성일 : {item.createdAt}</p>
-                  <Contant>ㅤ내용 : {item.content}</Contant>
+                  <ContentElement>👩🏻 닉네임 : {item.nickname}</ContentElement><br></br>
+                  <ContentElement>⏰️ 작성일 : {item.createdAt}</ContentElement><br></br>
+                  <Content>💙 내ㅤ용 : {item.content}</Content>
                 </div>
               </ListItem>
             </MiniLetterBox>
@@ -133,9 +131,9 @@ const ListItem = styled.div`
   flex-direction: row;
   display: flex;
   align-items: center;
-  margin: 20px;
+  margin: 30px;
 `;
-const Contant = styled.p`
+const Content = styled.p`
   max-width: 350px;
   overflow: hidden;
   white-space: nowrap;
@@ -144,4 +142,8 @@ const Contant = styled.p`
 `;
 const First = styled.p`
   margin: 30px;
+`;
+const ContentElement = styled.p`
+  display: flex;
+  align-items: center;
 `;

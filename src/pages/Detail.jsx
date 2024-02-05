@@ -64,7 +64,6 @@ export default function Detail() {
         <TobDiv>  
             <p>[{letter.nickname}]ㅤ{letter.createdAt}</p>
         </TobDiv>
-
         <Content>
           {editing ? (
             <Textarea value={editedContent} onChange={(event) => setEditedContent(event.target.value)} />
