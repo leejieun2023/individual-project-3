@@ -1,10 +1,68 @@
-import React, { useEffect, useState, useContext  } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import AddForm from 'components/AddForm';
 import { useNavigate } from 'react-router-dom';
 import Avatar from 'components/common/Avatar'
-import fakeData from 'fakeData.json'
-import { LettersContext } from 'LettersContext';
+import { useSelector } from 'react-redux';
+
+export default function Home() {
+  const artists = ['민지', '하니', '다니엘', '해린', '혜인'];
+  const [activeTab, setActiveTab] = useState(artists[0]);
+
+  const letters = useSelector(state => state.letters);
+
+  const filteredItem = letters.filter(item => item.writedTo === activeTab).slice();
+
+  const navigate = useNavigate();
+
+  return (
+    <div>
+      <Tob>
+        <p>NewJeans</p>
+        <p>🤍🐇🤍🐇🤍🐇💘</p>
+      </Tob>
+
+      <Header>
+        NewJeans fanletters
+      </Header>
+
+      <TabList>
+        {artists.map(artist => (
+          <TabPoint>
+            <Tab
+              key={artist}
+              active={activeTab === artist}
+              onClick={() => setActiveTab(artist)}
+            >
+              {artist}
+            </Tab>
+          </TabPoint>
+        ))}
+      </TabList>
+
+      <AddForm/>
+
+      <LetterBox>
+        {filteredItem.length > 0 ? (
+          filteredItem.map(item => (
+            <MiniLetterBox key={item.id}>
+              <ListItem onClick={() => navigate(`/Detail/${item.id}`)}>
+                <Avatar src={item.avatar || 'https://i.pinimg.com/236x/a5/e8/4d/a5e84dd8104ba6287b72e16401d173d7.jpg'} alt="avatar" />
+                <div>
+                  <p>닉네임 : {item.nickname}</p>
+                  <p>작성일 : {item.createdAt}</p>
+                  <Contant>ㅤ내용 : {item.content}</Contant>
+                </div>
+              </ListItem>
+            </MiniLetterBox>
+          ))
+        ) : (
+          <First>남겨진 팬레터가 없습니다. 첫 번째 팬레터의 주인공이 되어보세요!</First>
+        )}
+      </LetterBox>
+    </div >
+  )
+}
 
 const Tob = styled.div`
   background-color: rgb(0, 0, 0);
@@ -87,69 +145,3 @@ const Contant = styled.p`
 const First = styled.p`
   margin: 30px;
 `;
-
-function Home() {
-  const artists = ['민지', '하니', '다니엘', '해린', '혜인'];
-  const [activeTab, setActiveTab] = useState(artists[0]);
-  const { letters, setLetters } = useContext(LettersContext);
-
-  useEffect(() => {
-    if (letters.length === 0) {
-      setLetters(() => fakeData);
-    }
-  }, [letters, setLetters]);
-
-  const fillteredItem = letters.filter(item => item.writedTo === activeTab).slice().reverse();
-
-  const navigate = useNavigate();
-
-  return (
-    <div>
-      <Tob>
-        <p>NewJeans</p>
-        <p>🤍🐇🤍🐇🤍🐇💘</p>
-      </Tob>
-
-      <Header>
-        NewJeans fanletters
-      </Header>
-
-      <TabList>
-        {artists.map(artist => (
-          <TabPoint>
-            <Tab
-              key={artist}
-              active={activeTab === artist}
-              onClick={() => setActiveTab(artist)}
-            >
-              {artist}
-            </Tab>
-          </TabPoint>
-        ))}
-      </TabList>
-
-      <AddForm setLetters={setLetters}/>
-
-      <LetterBox>
-        {fillteredItem.length > 0 ? (
-          fillteredItem.map(item => (
-            <MiniLetterBox key={item.id}>
-              <ListItem onClick={() => navigate(`/Detail/${item.id}`)}>
-                <Avatar src={item.avatar || 'https://i.pinimg.com/236x/a5/e8/4d/a5e84dd8104ba6287b72e16401d173d7.jpg'} alt="avatar" />
-                <div>
-                  <p>닉네임 : {item.nickname}</p>
-                  <p>작성일 : {item.createdAt}</p>
-                  <Contant>ㅤ내용 : {item.content}</Contant>
-                </div>
-              </ListItem>
-            </MiniLetterBox>
-          ))
-        ) : (
-          <First>남겨진 팬레터가 없습니다. 첫 번째 팬레터의 주인공이 되어보세요!</First>
-        )}
-      </LetterBox>
-    </div >
-  )
-}
-
-export default Home;

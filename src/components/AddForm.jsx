@@ -1,66 +1,13 @@
 import { useState } from "react";
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from "react-redux";
+import { addLetter } from "../redux/modules/letters";
 
-const Form = styled.form`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
-    background-color: rgb(206, 232, 255);
-    padding: 30px;
-    font-family: 'IBM Plex Sans KR', cursive;
+export default function AddForm() {
 
-`
-const FormONE = styled.div`
-    background-color: #003d82;
-    color: white;
-    width: 600px;
-    height: 320px;
-    border-radius: 20px;
-`
-const FormRow = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 5px;
-`
-const Input = styled.input`
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid black;
-    width: 400px;
-    margin: 20px;
-`
-const Textarea = styled.textarea`
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid black;
-    width: 400px;
-    height: 100px;
-    margin: 20px;
-`
-
-const Select = styled.select`
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid black;
-    margin-left: 10px;
-    margin: 20px;
-`
-const Button = styled.button`
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    margin-left: 51px;
-    cursor: pointer;
-`
-
-const artists = ['민지', '하니', '다니엘', '해린', '혜인'];
-
-function AddForm({setLetters}) {
-
+    const dispatch = useDispatch();
+    const artists = ['민지', '하니', '다니엘', '해린', '혜인'];
     const [nickname, setNickname] = useState('');
     const [content, setContent] = useState('');
     const [artist, setArtist] = useState(artists[0]);
@@ -82,7 +29,7 @@ function AddForm({setLetters}) {
             hour12: true
         });
 
-        const newComment = {
+        const letter = {
             id: uuidv4(),
             nickname,
             content,
@@ -90,11 +37,12 @@ function AddForm({setLetters}) {
             createdAt: koreanDateTimeFormat.format(now)
         };
 
-        setLetters(prevLetters => [...prevLetters, newComment]);
+        dispatch(addLetter(letter));
         setNickname('');
         setContent('');
         setArtist(artists[0]);
-    }
+        console.log(addLetter(letter));
+    };
 
     return (
         <div>
@@ -135,7 +83,59 @@ function AddForm({setLetters}) {
                 </FormONE>
             </Form>
         </div>
-    )
-}
+    );
+};
 
-export default AddForm;
+const Form = styled.form`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgb(206, 232, 255);
+    padding: 30px;
+    font-family: 'IBM Plex Sans KR', cursive;
+
+`
+const FormONE = styled.div`
+    background-color: #003d82;
+    color: white;
+    width: 600px;
+    height: 320px;
+    border-radius: 20px;
+`
+const FormRow = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+`
+const Input = styled.input`
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 400px;
+    margin: 20px;
+`
+const Textarea = styled.textarea`
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 400px;
+    height: 100px;
+    margin: 20px;
+`
+const Select = styled.select`
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-left: 10px;
+    margin: 20px;
+`
+const Button = styled.button`
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 51px;
+    cursor: pointer;
+`
