@@ -47,9 +47,9 @@ export default function Home() {
               <ListItem onClick={() => navigate(`/Detail/${item.id}`)}>
                 <Avatar src={item.avatar || 'https://i.pinimg.com/236x/a5/e8/4d/a5e84dd8104ba6287b72e16401d173d7.jpg'} alt="avatar" />
                 <div>
-                  <ContentElement>👩🏻 닉네임 : {item.nickname}</ContentElement><br></br>
-                  <ContentElement>⏰️ 작성일 : {item.createdAt}</ContentElement><br></br>
-                  <Content>💙 내ㅤ용 : {item.content}</Content>
+                  <ContentElement>👩🏻 [닉네임] : {item.nickname}</ContentElement><br></br>
+                  <ContentElement>⏰️ [작성일] : {item.createdAt}</ContentElement><br></br>
+                  <Content>💙 [내ㅤ용] : {item.content}</Content>
                 </div>
               </ListItem>
             </MiniLetterBox>
